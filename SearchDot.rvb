@@ -1,0 +1,30 @@
+﻿Option Explicit
+'Script written by <Junichiro Horikawa>
+'Script copyrighted by <Junichiro Horikawa>
+'Script version Monday, February 28, 2011 10:47:03 AM
+
+Call Main()
+Sub Main()
+	Dim arrDots, strDot, strSearch, strSource
+	strSearch = Rhino.GetString("word to search")
+	If IsNull(strSearch) Then
+		Exit Sub
+	End If
+	
+	Rhino.EnableRedraw(False)
+	
+	Rhino.UnselectAllObjects
+	Rhino.Command("SelDot")
+	arrDots = Rhino.SelectedObjects
+	Rhino.UnselectAllObjects
+	If IsArray(arrDots) Then
+		For Each strDot In arrDots
+			strSource = Rhino.TextDotText(strDot)
+			If strSource = strSearch Then
+				Rhino.SelectObject(strDot)
+				Rhino.Print("yes")
+			End If
+		Next
+	End If
+	Rhino.EnableRedraw(True)
+End Sub
